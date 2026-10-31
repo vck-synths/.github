@@ -1,0 +1,70 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "description": "Shared Renovate configuration for vck-synths repositories",
+    "extends": ["config:recommended", ":enablePreCommit"],
+    "kustomize": {
+        "enabled": false
+    },
+    "packageRules": [
+        {
+            "description": "Ignore musonim git dependencies managed manually via make update-musonim",
+            "matchManagers": ["cargo"],
+            "matchDepTypes": ["git"],
+            "matchPackageNames": ["musonim-core", "musonim-verification-lib", "sinth"],
+            "enabled": false
+        },
+        {
+            "description": "Group non-breaking 1.x+ Rust crate updates into a single PR",
+            "matchManagers": ["cargo"],
+            "matchUpdateTypes": ["minor", "patch"],
+            "matchCurrentVersion": ">=1.0.0",
+            "groupName": "rust non-breaking dependencies",
+            "groupSlug": "rust-non-breaking"
+        },
+        {
+            "description": "Include 0.x patch updates in the non-breaking Rust group",
+            "matchManagers": ["cargo"],
+            "matchUpdateTypes": ["patch"],
+            "matchCurrentVersion": "/^0\\./",
+            "groupName": "rust non-breaking dependencies",
+            "groupSlug": "rust-non-breaking"
+        },
+        {
+            "description": "Group non-major npm updates into a single PR",
+            "matchManagers": ["npm"],
+            "matchUpdateTypes": ["minor", "patch"],
+            "groupName": "npm non-major dependencies",
+            "groupSlug": "npm-non-major"
+        },
+        {
+            "description": "Group non-major Python updates into a single PR",
+            "matchManagers": ["pep621"],
+            "matchUpdateTypes": ["minor", "patch"],
+            "groupName": "python non-major dependencies",
+            "groupSlug": "python-non-major"
+        },
+        {
+            "description": "Group GitHub Actions updates into a single PR",
+            "matchManagers": ["github-actions"],
+            "groupName": "github-actions"
+        },
+        {
+            "description": "Group standard linters into their own PR (overrides ecosystem groups above)",
+            "extends": ["packages:linters"],
+            "groupName": "linters",
+            "groupSlug": "linters"
+        },
+        {
+            "description": "Group pre-commit hooks into linters",
+            "matchManagers": ["pre-commit"],
+            "groupName": "linters",
+            "groupSlug": "linters"
+        },
+        {
+            "description": "Group Prettier, Prettier plugins, Svelte check, and Python linters/typecheckers into linters",
+            "matchPackageNames": ["prettier", "prettier-plugin-*", "svelte-check", "ruff", "ty"],
+            "groupName": "linters",
+            "groupSlug": "linters"
+        }
+    ]
+}
