@@ -1,7 +1,8 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "description": "Shared Renovate configuration for vck-synths repositories",
-    "extends": ["config:recommended", ":enablePreCommit"],
+    "timezone": "Europe/Amsterdam",
+    "extends": ["config:recommended", ":enablePreCommit", "schedule:weekly"],
     "kustomize": {
         "enabled": false
     },
